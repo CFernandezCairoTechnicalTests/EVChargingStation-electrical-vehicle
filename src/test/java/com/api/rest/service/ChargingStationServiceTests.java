@@ -151,20 +151,20 @@ public class ChargingStationServiceTests {
 
         chargingStation = ChargingStation.builder()
                 //.chargingStationId(chargingStationUUID)
-                .chargingStationType(ChargingStationType.AC)
+                .chargingStationType(ChargingStationType.AC.getValue())
                 .chargingPointsAmount(0)
-                .chargingStatus(ChargingStatus.UNAVAILABLE)
+                .chargingStatus(ChargingStatus.UNAVAILABLE.getValue())
                 .build();
 
         /*        chargingStationPoints                */
-        chargingStation.setChargingStationPoints(chargingStationPoints);
+        //chargingStation.setChargingStationPoints(chargingStationPoints);
         chargingStation.setChargingPointsAmount(chargingStationPoints.size());
-        chargingStation.setChargingStatus((chargingStationPoints.size() > 0) ? ChargingStatus.AVAILABLE : ChargingStatus.UNAVAILABLE);
+        chargingStation.setChargingStatus((chargingStationPoints.size() > 0) ? ChargingStatus.AVAILABLE.getValue() : ChargingStatus.UNAVAILABLE.getValue());
         /*        chargingStationPoints                */
 
         /*        chargingStationLocation                */
         chargingStationLocation.setChargingStation(chargingStation);
-        chargingStation.setChargingStationLocation(chargingStationLocation);
+        //chargingStation.setChargingStationLocation(chargingStationLocation);
         /*        chargingStationLocation                */
     }
 
@@ -204,20 +204,20 @@ public class ChargingStationServiceTests {
         //given
         ChargingStation chargingStationForList = ChargingStation.builder()
                 //.chargingStationId(chargingStationUUID)
-                .chargingStationType(ChargingStationType.AC)
+                .chargingStationType(ChargingStationType.AC.getValue())
                 .chargingPointsAmount(0)
-                .chargingStatus(ChargingStatus.UNAVAILABLE)
+                .chargingStatus(ChargingStatus.UNAVAILABLE.getValue())
                 .build();
 
         /*        chargingStationPoints                */
-        chargingStationForList.setChargingStationPoints(chargingStationPoints);
+        //chargingStationForList.setChargingStationPoints(chargingStationPoints);
         chargingStationForList.setChargingPointsAmount(chargingStationPoints.size());
-        chargingStationForList.setChargingStatus((chargingStationPoints.size() > 0) ? ChargingStatus.AVAILABLE : ChargingStatus.UNAVAILABLE);
+        chargingStationForList.setChargingStatus((chargingStationPoints.size() > 0) ? ChargingStatus.AVAILABLE.getValue() : ChargingStatus.UNAVAILABLE.getValue());
         /*        chargingStationPoints                */
 
         /*        chargingStationLocation                */
         chargingStationLocation.setChargingStation(chargingStationForList);
-        chargingStationForList.setChargingStationLocation(chargingStationLocation);
+        //chargingStationForList.setChargingStationLocation(chargingStationLocation);
         /*        chargingStationLocation                */
         given(chargingStationRepository.findAll()).willReturn(List.of(chargingStation,chargingStationForList));
 
@@ -235,20 +235,20 @@ public class ChargingStationServiceTests {
         //given
         ChargingStation chargingStationForList = ChargingStation.builder()
                 //.chargingStationId(chargingStationUUID)
-                .chargingStationType(ChargingStationType.AC)
+                .chargingStationType(ChargingStationType.AC.getValue())
                 .chargingPointsAmount(0)
-                .chargingStatus(ChargingStatus.UNAVAILABLE)
+                .chargingStatus(ChargingStatus.UNAVAILABLE.getValue())
                 .build();
 
         /*        chargingStationPoints                */
-        chargingStationForList.setChargingStationPoints(chargingStationPoints);
+        //chargingStationForList.setChargingStationPoints(chargingStationPoints);
         chargingStationForList.setChargingPointsAmount(chargingStationPoints.size());
-        chargingStationForList.setChargingStatus((chargingStationPoints.size() > 0) ? ChargingStatus.AVAILABLE : ChargingStatus.UNAVAILABLE);
+        chargingStationForList.setChargingStatus((chargingStationPoints.size() > 0) ? ChargingStatus.AVAILABLE.getValue() : ChargingStatus.UNAVAILABLE.getValue());
         /*        chargingStationPoints                */
 
         /*        chargingStationLocation                */
         chargingStationLocation.setChargingStation(chargingStationForList);
-        chargingStationForList.setChargingStationLocation(chargingStationLocation);
+        //chargingStationForList.setChargingStationLocation(chargingStationLocation);
         /*        chargingStationLocation                */
         given(chargingStationRepository.findAll()).willReturn(Collections.emptyList());
 
@@ -278,15 +278,15 @@ public class ChargingStationServiceTests {
     void testForUpdateChargingStation(){
         //given
         given(chargingStationRepository.save(chargingStation)).willReturn(chargingStation);
-        chargingStation.setChargingStatus(ChargingStatus.AVAILABLE);
-        chargingStation.setChargingStationType(ChargingStationType.AC);
+        chargingStation.setChargingStatus(ChargingStatus.AVAILABLE.getValue());
+        chargingStation.setChargingStationType(ChargingStationType.AC.getValue());
 
         //when
         ChargingStation updatedChargingStation  = chargingStationService.updateChargingStation(chargingStation);
 
         //then
-        assertThat(updatedChargingStation.getChargingStatus()).isEqualTo(ChargingStatus.AVAILABLE);
-        assertThat(updatedChargingStation.getChargingStationType()).isEqualTo(ChargingStationType.AC);
+        assertThat(updatedChargingStation.getChargingStatus()).isEqualTo(ChargingStatus.AVAILABLE.getValue());
+        assertThat(updatedChargingStation.getChargingStationType()).isEqualTo(ChargingStationType.AC.getValue());
     }
 
     @DisplayName("Remove ChargingStation by ID")

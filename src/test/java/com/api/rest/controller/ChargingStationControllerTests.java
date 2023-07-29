@@ -2,11 +2,11 @@ package com.api.rest.controller;
 
 
 import com.api.rest.model.*;
-import com.api.rest.repository.ChargingStationRepository;
 import com.api.rest.service.ChargingStationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -36,14 +36,12 @@ public class ChargingStationControllerTests {
     @MockBean
     private ChargingStationService chargingStationService;
 
-    @MockBean
-    private ChargingStationRepository chargingStationRepository;
-
     @Autowired
     private ObjectMapper objectMapper;
 
+    @DisplayName("Save ChargingStation")
     @Test
-    void testGuardarEmpleado() throws Exception {
+    void testSaveChargingStation() throws Exception {
         //given
         Set<ChargingStationPoint> chargingStationPoints = new HashSet<>();
         chargingStationPoints.add(ChargingStationPoint.builder()
@@ -143,9 +141,9 @@ public class ChargingStationControllerTests {
         /*        chargingStationLocation                */
 
         ChargingStation chargingStation = ChargingStation.builder()
-                .chargingStationType(ChargingStationType.AC)
+                .chargingStationType(ChargingStationType.AC.getValue())
                 .chargingPointsAmount(0)
-                .chargingStatus(ChargingStatus.UNAVAILABLE)
+                .chargingStatus(ChargingStatus.UNAVAILABLE.getValue())
                 .build();
         given(chargingStationService.saveChargingStation(any(ChargingStation.class)))
                 .willAnswer((invocation) -> invocation.getArgument(0));
@@ -162,15 +160,16 @@ public class ChargingStationControllerTests {
                 .andExpect(jsonPath("$.chargingPointsAmount",is(chargingStation.getChargingPointsAmount())));
     }
 
+    @DisplayName("Get all ChargingStations")
     @Test
-    void testListarEmpleados() throws Exception{
+    void testListChargingStations() throws Exception{
         //given
         List<ChargingStation> chargingStationList = new ArrayList<>();
-        chargingStationList.add(ChargingStation.builder().chargingStationType(ChargingStationType.AC).chargingPointsAmount(0).chargingStatus(ChargingStatus.UNAVAILABLE).build());
-        chargingStationList.add(ChargingStation.builder().chargingStationType(ChargingStationType.DC).chargingPointsAmount(1).chargingStatus(ChargingStatus.AVAILABLE).build());
-        chargingStationList.add(ChargingStation.builder().chargingStationType(ChargingStationType.AC).chargingPointsAmount(3).chargingStatus(ChargingStatus.IN_USE).build());
-        chargingStationList.add(ChargingStation.builder().chargingStationType(ChargingStationType.AC).chargingPointsAmount(2).chargingStatus(ChargingStatus.UNAVAILABLE).build());
-        chargingStationList.add(ChargingStation.builder().chargingStationType(ChargingStationType.DC).chargingPointsAmount(0).chargingStatus(ChargingStatus.AVAILABLE).build());
+        chargingStationList.add(ChargingStation.builder().chargingStationType(ChargingStationType.AC.getValue()).chargingPointsAmount(0).chargingStatus(ChargingStatus.UNAVAILABLE.getValue()).build());
+        chargingStationList.add(ChargingStation.builder().chargingStationType(ChargingStationType.DC.getValue()).chargingPointsAmount(1).chargingStatus(ChargingStatus.AVAILABLE.getValue()).build());
+        chargingStationList.add(ChargingStation.builder().chargingStationType(ChargingStationType.AC.getValue()).chargingPointsAmount(3).chargingStatus(ChargingStatus.IN_USE.getValue()).build());
+        chargingStationList.add(ChargingStation.builder().chargingStationType(ChargingStationType.AC.getValue()).chargingPointsAmount(2).chargingStatus(ChargingStatus.UNAVAILABLE.getValue()).build());
+        chargingStationList.add(ChargingStation.builder().chargingStationType(ChargingStationType.DC.getValue()).chargingPointsAmount(0).chargingStatus(ChargingStatus.AVAILABLE.getValue()).build());
         given(chargingStationService.getAllChargingStations()).willReturn(chargingStationList);
 
         //when
@@ -182,14 +181,15 @@ public class ChargingStationControllerTests {
                 .andExpect(jsonPath("$.size()",is(chargingStationList.size())));
     }
 
+    @DisplayName("Get ChargingStation by ID")
     @Test
-    void testObtenerEmpleadoPorId() throws Exception{
+    void testGetChargingStationByID() throws Exception {
         //given
         String chargingStationId = "1L";
         ChargingStation chargingStation = ChargingStation.builder()
-                .chargingStationType(ChargingStationType.AC)
+                .chargingStationType(ChargingStationType.AC.getValue())
                 .chargingPointsAmount(0)
-                .chargingStatus(ChargingStatus.UNAVAILABLE)
+                .chargingStatus(ChargingStatus.UNAVAILABLE.getValue())
                 .build();
         given(chargingStationService.getChargingStationById(chargingStationId)).willReturn(Optional.of(chargingStation));
 
@@ -203,14 +203,15 @@ public class ChargingStationControllerTests {
                 .andExpect(jsonPath("$.chargingPointsAmount",is(chargingStation.getChargingPointsAmount())));
     }
 
+    @DisplayName("Get not found ChargingStations")
     @Test
-    void testObtenerEmpleadoNoEncontrado() throws Exception{
+    void testNotFoundChargingStations() throws Exception{
         //given
         String chargingStationId = "1L";
         ChargingStation chargingStation = ChargingStation.builder()
-                .chargingStationType(ChargingStationType.AC)
+                .chargingStationType(ChargingStationType.AC.getValue())
                 .chargingPointsAmount(0)
-                .chargingStatus(ChargingStatus.UNAVAILABLE)
+                .chargingStatus(ChargingStatus.UNAVAILABLE.getValue())
                 .build();
         given(chargingStationService.getChargingStationById(chargingStationId)).willReturn(Optional.empty());
 
@@ -222,22 +223,24 @@ public class ChargingStationControllerTests {
                 .andDo(print());
     }
 
+    @DisplayName("Update ChargingStation")
     @Test
-    void testActualizarEmpleado() throws Exception{
+    void testForUpdateChargingStation() throws Exception{
         //given
         String chargingStationId = "1L";
         ChargingStation chargingStationSaved = ChargingStation.builder()
-                .chargingStationType(ChargingStationType.AC)
+                //.chargingStationType(ChargingStationType.AC)
                 .chargingPointsAmount(0)
-                .chargingStatus(ChargingStatus.UNAVAILABLE)
+                //.chargingStatus(ChargingStatus.UNAVAILABLE)
                 .build();
 
         ChargingStation chargingStationUpdated = ChargingStation.builder()
-                .chargingStationType(ChargingStationType.AC)
+                //.chargingStationType(ChargingStationType.AC)
                 .chargingPointsAmount(0)
-                .chargingStatus(ChargingStatus.AVAILABLE)
+                //.chargingStatus(ChargingStatus.AVAILABLE)
                 .build();
 
+        //given(chargingStationService.getChargingStationById(chargingStationId)).willReturn(Optional.of(chargingStation));
         given(chargingStationService.getChargingStationById(chargingStationId)).willReturn(Optional.of(chargingStationSaved));
         given(chargingStationService.updateChargingStation(any(ChargingStation.class)))
                 .willAnswer((invocation) -> invocation.getArgument(0));
@@ -255,20 +258,21 @@ public class ChargingStationControllerTests {
 
     }
 
+    @DisplayName("Update not found ChargingStations")
     @Test
-    void testActualizarEmpleadoNoEncontrado() throws Exception{
+    void testUpdateNotFoundChargingStations() throws Exception{
         //given
         String chargingStationId = "1L";
         ChargingStation chargingStationSaved = ChargingStation.builder()
-                .chargingStationType(ChargingStationType.AC)
+                .chargingStationType(ChargingStationType.AC.getValue())
                 .chargingPointsAmount(0)
-                .chargingStatus(ChargingStatus.UNAVAILABLE)
+                .chargingStatus(ChargingStatus.UNAVAILABLE.getValue())
                 .build();
 
         ChargingStation chargingStationUpdated = ChargingStation.builder()
-                .chargingStationType(ChargingStationType.AC)
+                .chargingStationType(ChargingStationType.AC.getValue())
                 .chargingPointsAmount(0)
-                .chargingStatus(ChargingStatus.AVAILABLE)
+                .chargingStatus(ChargingStatus.AVAILABLE.getValue())
                 .build();
 
         given(chargingStationService.getChargingStationById(chargingStationId)).willReturn(Optional.empty());
@@ -285,8 +289,9 @@ public class ChargingStationControllerTests {
                 .andDo(print());
     }
 
+    @DisplayName("Remove ChargingStation")
     @Test
-    void testEliminarEmpleado() throws Exception{
+    void testRemoveChargingStationBy() throws Exception{
         //given
         String chargingStationId = "1L";
         willDoNothing().given(chargingStationService).deleteChargingStation(chargingStationId);
