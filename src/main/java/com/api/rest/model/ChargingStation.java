@@ -30,7 +30,7 @@ public class ChargingStation implements Serializable {
     private ChargingStationLocation chargingStationLocation;
 
     @Column(name = "type",nullable = false)
-    private ChargingStationType chargingStationType;
+    private String chargingStationType;
 
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "charging_station_points", joinColumns = @JoinColumn(name = "chargingStation_id"))
@@ -40,6 +40,6 @@ public class ChargingStation implements Serializable {
     private Integer chargingPointsAmount;
 
     @Column(name = "status",nullable = false)
-    private ChargingStatus chargingStatus;
+    private String chargingStatus;
 
 }

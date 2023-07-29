@@ -23,15 +23,15 @@ public class ChargingStationType implements java.io.Serializable,
         this.value = value;
     }
 
-    public String getChargingTypeValue() {
+    public String getValue() {
         return value;
     }
 
-    public static boolean parseChargerType(String s) {
+    public static boolean parseAC(String s) {
         return AC.value.equalsIgnoreCase(s);
     }
 
-    public static ChargingStationType valueOf(String s) { return parseChargerType(s) ? AC : DC;  }
+    public static ChargingStationType valueOf(String s) { return parseAC(s) ? AC : DC;  }
 
     public static String toString(String b) {
         return String.valueOf(b);
@@ -44,7 +44,7 @@ public class ChargingStationType implements java.io.Serializable,
 
     public boolean equals(Object obj) {
         if (obj instanceof ChargingStationType) {
-            return value == ((ChargingStationType)obj).getChargingTypeValue();
+            return value == ((ChargingStationType)obj).getValue();
         }
         return false;
     }
@@ -52,7 +52,7 @@ public class ChargingStationType implements java.io.Serializable,
     public static boolean getBoolean(String name) {
         boolean result = false;
         try {
-            result = parseChargerType(System.getProperty(name));
+            result = parseAC(System.getProperty(name));
         } catch (IllegalArgumentException | NullPointerException e) {
         }
         return result;

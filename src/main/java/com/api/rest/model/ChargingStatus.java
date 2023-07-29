@@ -24,19 +24,19 @@ public class ChargingStatus implements java.io.Serializable,
         this.value = value;
     }
 
-    public String getChargingStatusValue() {
+    public String getValue() {
         return value;
     }
 
-    public static boolean parseAVAILABLEChargingStatus(String s) {
+    public static boolean parseAVAILABLE(String s) {
         return AVAILABLE.value.equalsIgnoreCase(s);
     }
 
-    public static boolean parseUNAVAILABLEChargingStatus(String s) {
+    public static boolean parseUNAVAILABLE(String s) {
         return UNAVAILABLE.value.equalsIgnoreCase(s);
     }
 
-    public static ChargingStatus valueOf(String s) { return parseAVAILABLEChargingStatus(s) ? AVAILABLE : parseUNAVAILABLEChargingStatus(s) ? UNAVAILABLE : IN_USE;  }
+    public static ChargingStatus valueOf(String s) { return parseAVAILABLE(s) ? AVAILABLE : parseUNAVAILABLE(s) ? UNAVAILABLE : IN_USE;  }
 
     public static String toString(String b) {
         return String.valueOf(b);
@@ -49,7 +49,7 @@ public class ChargingStatus implements java.io.Serializable,
 
     public boolean equals(Object obj) {
         if (obj instanceof ChargingStatus) {
-            return value == ((ChargingStatus)obj).getChargingStatusValue();
+            return value == ((ChargingStatus)obj).getValue();
         }
         return false;
     }
@@ -57,7 +57,7 @@ public class ChargingStatus implements java.io.Serializable,
     public static boolean getBoolean(String name) {
         boolean result = false;
         try {
-            result = parseAVAILABLEChargingStatus(System.getProperty(name));
+            result = parseAVAILABLE(System.getProperty(name));
         } catch (IllegalArgumentException | NullPointerException e) {
         }
         return result;
