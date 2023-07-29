@@ -1,0 +1,203 @@
+[
+  {
+    "title": "Statue of Liberty",
+    "id": "here:pds:place:840dr5r7-9df1349708914ceba912909970598cf7",
+    "language": "en",
+    "resultType": "place",
+    "address": {
+      "label": "Statue of Liberty, New York, NY 10004, United States",
+      "countryCode": "USA",
+      "countryName": "United States",
+      "stateCode": "NY",
+      "state": "New York",
+      "county": "New York",
+      "city": "New York",
+      "district": "Liberty Island",
+      "postalCode": "10004"
+    },
+    "position": {
+      "lat": 40.68925,
+      "lng": -74.04445
+    },
+    "access": [
+      {
+        "lat": 40.68971,
+        "lng": -74.04357
+      }
+    ],
+    "distance": 6094,
+    "categories": [
+      {
+        "id": "300-3000-0025",
+        "name": "Historical Monument",
+        "primary": true
+      },
+      {
+        "id": "300-3000-0000",
+        "name": "Landmark-Attraction"
+      }
+    ],
+    "references": [
+      {
+        "supplier": {
+          "id": "core"
+        },
+        "id": "899132706"
+      },
+      {
+        "supplier": {
+          "id": "tripadvisor"
+        },
+        "id": "103887"
+      }
+    ],
+    "contacts": [
+      {
+        "phone": [
+          {
+            "value": "+12123633200"
+          }
+        ],
+        "www": [
+          {
+            "value": "http://www.nps.gov/stli"
+          },
+          {
+            "value": "https://www.nps.gov/stli/index.htm",
+            "categories": [
+              {
+                "id": "300-3000-0025"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Statue of Liberty-New York Access",
+    "id": "here:pds:place:840dr5re-9f0b7cf123e84620a52771300e610edd",
+    "language": "en",
+    "resultType": "place",
+    "address": {
+      "label": "Statue of Liberty-New York Access, 1 Battery Park, New York, NY 10004, United States",
+      "countryCode": "USA",
+      "countryName": "United States",
+      "stateCode": "NY",
+      "state": "New York",
+      "county": "New York",
+      "city": "New York",
+      "district": "Financial District",
+      "street": "Battery Park",
+      "postalCode": "10004",
+      "houseNumber": "1"
+    },
+    "position": {
+      "lat": 40.70289,
+      "lng": -74.01394
+    },
+    "access": [
+      {
+        "lat": 40.70269,
+        "lng": -74.01422
+      }
+    ],
+    "distance": 3405,
+    "categories": [
+      {
+        "id": "300-3000-0025",
+        "name": "Historical Monument",
+        "primary": true
+      },
+      {
+        "id": "300-3000-0023",
+        "name": "Tourist Attraction"
+      },
+      {
+        "id": "300-3100-0000",
+        "name": "Museum"
+      },
+      {
+        "id": "550-5510-0242",
+        "name": "Scenic Point"
+      }
+    ],
+    "references": [
+      {
+        "supplier": {
+          "id": "core"
+        },
+        "id": "1217208922"
+      },
+      {
+        "supplier": {
+          "id": "core"
+        },
+        "id": "17260966"
+      },
+      {
+        "supplier": {
+          "id": "core"
+        },
+        "id": "17262185"
+      },
+      {
+        "supplier": {
+          "id": "tripadvisor"
+        },
+        "id": "25992007"
+      },
+      {
+        "supplier": {
+          "id": "yelp"
+        },
+        "id": "gnZXpLFzKzdBeQfFz1h-2g"
+      },
+      {
+        "supplier": {
+          "id": "yelp"
+        },
+        "id": "wB45aXh2cQlRWoKQzhWgeA"
+      }
+    ],
+    "contacts": [
+      {
+        "phone": [
+          {
+            "value": "+12123443491",
+            "categories": [
+              {
+                "id": "300-3000-0023"
+              },
+              {
+                "id": "300-3000-0025"
+              },
+              {
+                "id": "300-3100-0000"
+              }
+            ]
+          },
+          {
+            "value": "+12123633200"
+          }
+        ],
+        "www": [
+          {
+            "value": "https://www.thebattery.org/about-us",
+            "categories": [
+              {
+                "id": "300-3000-0023"
+              },
+              {
+                "id": "300-3000-0025"
+              },
+              {
+                "id": "300-3100-0000"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
