@@ -24,9 +24,7 @@ public class ChargingStation implements Serializable {
     @GenericGenerator(name="system-uuid", strategy = "uuid")
     private String chargingStationId;
 
-    @OneToOne(fetch = FetchType.LAZY,
-            cascade =  CascadeType.ALL,
-            mappedBy = "chargingStation")
+    @Embedded
     private ChargingStationLocation chargingStationLocation;
 
     @Column(name = "type",nullable = false)

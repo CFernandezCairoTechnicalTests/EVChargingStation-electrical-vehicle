@@ -28,6 +28,6 @@ public class ChargingStationPoint {
     private Integer powerLevel;
 
     @Column(name = "status",nullable = false)
-    private ChargingStatus status;
+    private String status;
 
 }

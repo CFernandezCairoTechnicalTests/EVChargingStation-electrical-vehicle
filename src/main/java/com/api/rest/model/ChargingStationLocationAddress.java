@@ -10,13 +10,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Builder
 
-@Entity
-@Table(name = "charging_station_location_address")
+@Embeddable
 public class ChargingStationLocationAddress {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long chargingLocationAddressId;
 
     @Column(name = "label",nullable = false)
     private String label;
@@ -45,8 +40,5 @@ public class ChargingStationLocationAddress {
     @Column(name = "postalcode",nullable = false)
     private String postalCode;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "chargingLocation_id", nullable = false)
-    private ChargingStationLocation chargingStationLocation;
 
 }

@@ -13,17 +13,8 @@ import java.io.Serializable;
 /**
  * Created by rajeevkumarsingh on 20/11/17.
  */
-@Entity
-@Table(name = "charging_station_locations")
+@Embeddable
 public class ChargingStationLocation implements Serializable {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long chargingLocationId;
-
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "chargingStation_id", nullable = false)
-    private ChargingStation chargingStation;
 
     private String id;
 
@@ -39,14 +30,10 @@ public class ChargingStationLocation implements Serializable {
     @Column(name = "distance",nullable = false)
     private float distance;
 
-    @OneToOne(fetch = FetchType.LAZY,
-            cascade =  CascadeType.ALL,
-            mappedBy = "chargingStationLocation")
+    @Embedded
     private ChargingStationLocationAddress address;
 
-    @OneToOne(fetch = FetchType.LAZY,
-            cascade =  CascadeType.ALL,
-            mappedBy = "chargingStationLocation")
+    @Embedded
     ChargingStationLocationPosition position;
 
     /*@ElementCollection(fetch = FetchType.LAZY)
