@@ -49,13 +49,13 @@ public class ChargingStationServiceTests {
         chargingStationPoints.add(ChargingStationPoint.builder()
                 .chargingPointId(UUID.randomUUID())
                 .powerLevel(20000)
-                .status(ChargingStatus.IN_USE)
+                .status(ChargingStatus.IN_USE.getValue())
                 .build()
         );
         chargingStationPoints.add(ChargingStationPoint.builder()
                 .chargingPointId(UUID.randomUUID())
                 .powerLevel(100000)
-                .status(ChargingStatus.AVAILABLE)
+                .status(ChargingStatus.AVAILABLE.getValue())
                 .build()
         );
         /*        chargingStationPoints                */
@@ -144,8 +144,8 @@ public class ChargingStationServiceTests {
                 "]", listType);
 
         chargingStationLocation = chargingLocations.get(0);
-        chargingStationLocation.getAddress().setChargingStationLocation(chargingStationLocation);
-        chargingStationLocation.getPosition().setChargingStationLocation(chargingStationLocation);
+        //chargingStationLocation.getAddress().setChargingStationLocation(chargingStationLocation);
+        //chargingStationLocation.getPosition().setChargingStationLocation(chargingStationLocation);
         /*        chargingStationLocation                */
 
 
@@ -163,7 +163,7 @@ public class ChargingStationServiceTests {
         /*        chargingStationPoints                */
 
         /*        chargingStationLocation                */
-        chargingStationLocation.setChargingStation(chargingStation);
+        //chargingStationLocation.setChargingStation(chargingStation);
         //chargingStation.setChargingStationLocation(chargingStationLocation);
         /*        chargingStationLocation                */
     }
@@ -216,7 +216,7 @@ public class ChargingStationServiceTests {
         /*        chargingStationPoints                */
 
         /*        chargingStationLocation                */
-        chargingStationLocation.setChargingStation(chargingStationForList);
+        //chargingStationLocation.setChargingStation(chargingStationForList);
         //chargingStationForList.setChargingStationLocation(chargingStationLocation);
         /*        chargingStationLocation                */
         given(chargingStationRepository.findAll()).willReturn(List.of(chargingStation,chargingStationForList));
@@ -247,7 +247,7 @@ public class ChargingStationServiceTests {
         /*        chargingStationPoints                */
 
         /*        chargingStationLocation                */
-        chargingStationLocation.setChargingStation(chargingStationForList);
+        //chargingStationLocation.setChargingStation(chargingStationForList);
         //chargingStationForList.setChargingStationLocation(chargingStationLocation);
         /*        chargingStationLocation                */
         given(chargingStationRepository.findAll()).willReturn(Collections.emptyList());

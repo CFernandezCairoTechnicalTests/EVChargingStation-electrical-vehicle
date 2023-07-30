@@ -47,7 +47,7 @@ public class ChargingStationControllerTests {
         chargingStationPoints.add(ChargingStationPoint.builder()
                 .chargingPointId(UUID.randomUUID())
                 .powerLevel(20000)
-                .status(ChargingStatus.IN_USE)
+                .status(ChargingStatus.IN_USE.getValue())
                 .build()
         );
         /*        chargingStationPoints                */
@@ -136,8 +136,8 @@ public class ChargingStationControllerTests {
                 "]", listType);
 
         ChargingStationLocation chargingStationLocation = chargingLocations.get(0);
-        chargingStationLocation.getAddress().setChargingStationLocation(chargingStationLocation);
-        chargingStationLocation.getPosition().setChargingStationLocation(chargingStationLocation);
+        //chargingStationLocation.getAddress().setChargingStationLocation(chargingStationLocation);
+        //chargingStationLocation.getPosition().setChargingStationLocation(chargingStationLocation);
         /*        chargingStationLocation                */
 
         ChargingStation chargingStation = ChargingStation.builder()
