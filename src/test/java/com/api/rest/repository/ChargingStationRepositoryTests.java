@@ -19,7 +19,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @DataJpaTest
-//@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ChargingStationRepositoryTests {
 
     @Autowired
