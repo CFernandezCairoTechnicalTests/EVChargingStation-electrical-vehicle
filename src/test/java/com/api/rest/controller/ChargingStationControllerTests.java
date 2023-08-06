@@ -6,6 +6,7 @@ import com.api.rest.service.ChargingStationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,10 +40,8 @@ public class ChargingStationControllerTests {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @DisplayName("Save ChargingStation")
-    @Test
-    void testSaveChargingStation() throws Exception {
-        //given
+    Set<ChargingStationPoint> getChargingStationPoints() {
+
         Set<ChargingStationPoint> chargingStationPoints = new HashSet<>();
         chargingStationPoints.add(ChargingStationPoint.builder()
                 .chargingPointId(UUID.randomUUID())
@@ -50,9 +49,18 @@ public class ChargingStationControllerTests {
                 .status(ChargingStatus.IN_USE.getValue())
                 .build()
         );
-        /*        chargingStationPoints                */
+        chargingStationPoints.add(ChargingStationPoint.builder()
+                .chargingPointId(UUID.randomUUID())
+                .powerLevel(100000)
+                .status(ChargingStatus.AVAILABLE.getValue())
+                .build()
+        );
 
-        /*        chargingStationLocation                */
+        return chargingStationPoints;
+    }
+
+    ChargingStationLocation getChargingStationLocation(){
+
         List<ChargingStationLocation> chargingLocations = new ArrayList<>();
         chargingLocations.add(new ChargingStationLocation());
         Gson gson = new Gson();
@@ -135,21 +143,36 @@ public class ChargingStationControllerTests {
                 "    }\n" +
                 "]", listType);
 
-        ChargingStationLocation chargingStationLocation = chargingLocations.get(0);
-        //chargingStationLocation.getAddress().setChargingStationLocation(chargingStationLocation);
-        //chargingStationLocation.getPosition().setChargingStationLocation(chargingStationLocation);
-        /*        chargingStationLocation                */
+        return chargingLocations.get(0);
+    }
+
+    ChargingStation getChargingStation(){
+
+        Set<ChargingStationPoint> points = getChargingStationPoints();
 
         ChargingStation chargingStation = ChargingStation.builder()
+                .chargingStationId(UUID.randomUUID().toString())
+                .chargingStationPoints(points)
+                .chargingPointsAmount(points.size())
+                .chargingStatus((points.size() > 0) ? ChargingStatus.AVAILABLE.getValue() : ChargingStatus.UNAVAILABLE.getValue())
                 .chargingStationType(ChargingStationType.AC.getValue())
                 .chargingPointsAmount(0)
                 .chargingStatus(ChargingStatus.UNAVAILABLE.getValue())
+                .chargingStationLocation(getChargingStationLocation())
                 .build();
+
+        return chargingStation;
+    }
+    @DisplayName("Save ChargingStation")
+    @Test
+    void testSaveChargingStation() throws Exception {
+        //given
+        ChargingStation chargingStation = getChargingStation();
         given(chargingStationService.saveChargingStation(any(ChargingStation.class)))
                 .willAnswer((invocation) -> invocation.getArgument(0));
 
         //when
-        ResultActions response = mockMvc.perform(post("/api/chargingstation")
+        ResultActions response = mockMvc.perform(post("/chargingstation")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(chargingStation)));
 
@@ -165,15 +188,12 @@ public class ChargingStationControllerTests {
     void testListChargingStations() throws Exception{
         //given
         List<ChargingStation> chargingStationList = new ArrayList<>();
-        chargingStationList.add(ChargingStation.builder().chargingStationType(ChargingStationType.AC.getValue()).chargingPointsAmount(0).chargingStatus(ChargingStatus.UNAVAILABLE.getValue()).build());
-        chargingStationList.add(ChargingStation.builder().chargingStationType(ChargingStationType.DC.getValue()).chargingPointsAmount(1).chargingStatus(ChargingStatus.AVAILABLE.getValue()).build());
-        chargingStationList.add(ChargingStation.builder().chargingStationType(ChargingStationType.AC.getValue()).chargingPointsAmount(3).chargingStatus(ChargingStatus.IN_USE.getValue()).build());
-        chargingStationList.add(ChargingStation.builder().chargingStationType(ChargingStationType.AC.getValue()).chargingPointsAmount(2).chargingStatus(ChargingStatus.UNAVAILABLE.getValue()).build());
-        chargingStationList.add(ChargingStation.builder().chargingStationType(ChargingStationType.DC.getValue()).chargingPointsAmount(0).chargingStatus(ChargingStatus.AVAILABLE.getValue()).build());
+        chargingStationList.add(getChargingStation());
+        chargingStationList.add(getChargingStation());
         given(chargingStationService.getAllChargingStations()).willReturn(chargingStationList);
 
         //when
-        ResultActions response = mockMvc.perform(get("/api/chargingstation"));
+        ResultActions response = mockMvc.perform(get("/chargingstation"));
 
         //then
         response.andExpect(status().isOk())
@@ -186,15 +206,12 @@ public class ChargingStationControllerTests {
     void testGetChargingStationByID() throws Exception {
         //given
         String chargingStationId = "1L";
-        ChargingStation chargingStation = ChargingStation.builder()
-                .chargingStationType(ChargingStationType.AC.getValue())
-                .chargingPointsAmount(0)
-                .chargingStatus(ChargingStatus.UNAVAILABLE.getValue())
-                .build();
+        ChargingStation chargingStation = getChargingStation();
+        chargingStation.setChargingStatus(ChargingStatus.IN_USE.getValue());
         given(chargingStationService.getChargingStationById(chargingStationId)).willReturn(Optional.of(chargingStation));
 
         //when
-        ResultActions response = mockMvc.perform(get("/api/chargingstation/{id}",chargingStationId));
+        ResultActions response = mockMvc.perform(get("/chargingstation/{id}",chargingStationId));
 
         //then
         response.andDo(print())
@@ -208,15 +225,12 @@ public class ChargingStationControllerTests {
     void testNotFoundChargingStations() throws Exception{
         //given
         String chargingStationId = "1L";
-        ChargingStation chargingStation = ChargingStation.builder()
-                .chargingStationType(ChargingStationType.AC.getValue())
-                .chargingPointsAmount(0)
-                .chargingStatus(ChargingStatus.UNAVAILABLE.getValue())
-                .build();
+        ChargingStation chargingStation = getChargingStation();
+        chargingStation.setChargingStationType(ChargingStationType.DC.getValue());
         given(chargingStationService.getChargingStationById(chargingStationId)).willReturn(Optional.empty());
 
         //when
-        ResultActions response = mockMvc.perform(get("/api/chargingstation/{id}",chargingStationId));
+        ResultActions response = mockMvc.perform(get("/chargingstation/{id}",chargingStationId));
 
         //then
         response.andExpect(status().isNotFound())
@@ -228,25 +242,18 @@ public class ChargingStationControllerTests {
     void testForUpdateChargingStation() throws Exception{
         //given
         String chargingStationId = "1L";
-        ChargingStation chargingStationSaved = ChargingStation.builder()
-                //.chargingStationType(ChargingStationType.AC)
-                .chargingPointsAmount(0)
-                //.chargingStatus(ChargingStatus.UNAVAILABLE)
-                .build();
+        ChargingStation chargingStationSaved = getChargingStation();
+        chargingStationSaved.setChargingPointsAmount(0);
 
-        ChargingStation chargingStationUpdated = ChargingStation.builder()
-                //.chargingStationType(ChargingStationType.AC)
-                .chargingPointsAmount(0)
-                //.chargingStatus(ChargingStatus.AVAILABLE)
-                .build();
+        ChargingStation chargingStationUpdated = getChargingStation();
+        chargingStationUpdated.setChargingPointsAmount(5);
 
-        //given(chargingStationService.getChargingStationById(chargingStationId)).willReturn(Optional.of(chargingStation));
         given(chargingStationService.getChargingStationById(chargingStationId)).willReturn(Optional.of(chargingStationSaved));
         given(chargingStationService.updateChargingStation(any(ChargingStation.class)))
                 .willAnswer((invocation) -> invocation.getArgument(0));
 
         //when
-        ResultActions response = mockMvc.perform(put("/api/chargingstation/{id}",chargingStationId)
+        ResultActions response = mockMvc.perform(put("/chargingstation/{id}",chargingStationId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(chargingStationUpdated)));
 
@@ -263,24 +270,20 @@ public class ChargingStationControllerTests {
     void testUpdateNotFoundChargingStations() throws Exception{
         //given
         String chargingStationId = "1L";
-        ChargingStation chargingStationSaved = ChargingStation.builder()
-                .chargingStationType(ChargingStationType.AC.getValue())
-                .chargingPointsAmount(0)
-                .chargingStatus(ChargingStatus.UNAVAILABLE.getValue())
-                .build();
+        ChargingStation chargingStationSaved = getChargingStation();
+        chargingStationSaved.setChargingStationType(ChargingStationType.AC.getValue());
+        chargingStationSaved.setChargingStatus(ChargingStatus.AVAILABLE.getValue());
 
-        ChargingStation chargingStationUpdated = ChargingStation.builder()
-                .chargingStationType(ChargingStationType.AC.getValue())
-                .chargingPointsAmount(0)
-                .chargingStatus(ChargingStatus.AVAILABLE.getValue())
-                .build();
+        ChargingStation chargingStationUpdated = getChargingStation();
+        chargingStationSaved.setChargingStationType(ChargingStationType.DC.getValue());
+        chargingStationSaved.setChargingStatus(ChargingStatus.UNAVAILABLE.getValue());
 
         given(chargingStationService.getChargingStationById(chargingStationId)).willReturn(Optional.empty());
         given(chargingStationService.updateChargingStation(any(ChargingStation.class)))
                 .willAnswer((invocation) -> invocation.getArgument(0));
 
         //when
-        ResultActions response = mockMvc.perform(put("/api/chargingstation/{id}",chargingStationId)
+        ResultActions response = mockMvc.perform(put("/chargingstation/{id}",chargingStationId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(chargingStationUpdated)));
 
@@ -297,7 +300,7 @@ public class ChargingStationControllerTests {
         willDoNothing().given(chargingStationService).deleteChargingStation(chargingStationId);
 
         //when
-        ResultActions response = mockMvc.perform(delete("/api/chargingstation/{id}",chargingStationId));
+        ResultActions response = mockMvc.perform(delete("/chargingstation/{id}",chargingStationId));
 
         //then
         response.andExpect(status().isOk())

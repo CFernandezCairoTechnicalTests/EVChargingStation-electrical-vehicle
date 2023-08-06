@@ -7,17 +7,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/chargingstation")
+@RequestMapping("/chargingstation")
 public class ChargingStationController {
     @Autowired
     private ChargingStationService chargingStationService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ChargingStation saveChargingStation(@RequestBody ChargingStation chargingStation){
+    public ChargingStation saveChargingStation(@Valid @RequestBody ChargingStation chargingStation){
         return chargingStationService.saveChargingStation(chargingStation);
     }
 
@@ -38,10 +39,11 @@ public class ChargingStationController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ChargingStation> updateChargingStation(@PathVariable("id") String chargingStationId,@RequestBody ChargingStation chargingStation){
+    public ResponseEntity<ChargingStation> updateChargingStation(@PathVariable("id") String chargingStationId, @Valid @RequestBody ChargingStation chargingStation){
         return chargingStationService.getChargingStationById(chargingStationId)
                 .map(chargingStationSaved -> {
                     chargingStationSaved.setChargingStationType(chargingStation.getChargingStationType());
+                    chargingStationSaved.setChargingPointsAmount(chargingStation.getChargingPointsAmount());
                     chargingStationSaved.setChargingStatus(chargingStation.getChargingStatus());
 
                     ChargingStation chargingStationUpdated = chargingStationService.updateChargingStation(chargingStationSaved);
