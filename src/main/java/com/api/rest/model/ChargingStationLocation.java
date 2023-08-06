@@ -3,6 +3,8 @@ package com.api.rest.model;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 @Setter
@@ -16,24 +18,29 @@ import java.io.Serializable;
 @Embeddable
 public class ChargingStationLocation implements Serializable {
 
+    @Column(name = "id", nullable = false)
+    @NonNull
+    @NotEmpty
     private String id;
 
-    @Column(name = "title",nullable = false)
+    @Column(name = "title")
     private String title;
 
-    @Column(name = "language",nullable = false)
+    @Column(name = "language")
     private String language;
 
-    @Column(name = "resulttype",nullable = false)
+    @Column(name = "resulttype")
     private String resultType;
 
-    @Column(name = "distance",nullable = false)
+    @Column(name = "distance")
     private float distance;
 
     @Embedded
+    @Valid
     private ChargingStationLocationAddress address;
 
     @Embedded
+    @Valid
     ChargingStationLocationPosition position;
 
     /*@ElementCollection(fetch = FetchType.LAZY)
