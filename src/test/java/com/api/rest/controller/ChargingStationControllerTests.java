@@ -163,7 +163,7 @@ public class ChargingStationControllerTests {
 
         return chargingStation;
     }
-    @DisplayName("Save ChargingStation")
+    @DisplayName("POST :: Save ChargingStation")
     @Test
     void testSaveChargingStation() throws Exception {
         //given
@@ -183,7 +183,7 @@ public class ChargingStationControllerTests {
                 .andExpect(jsonPath("$.chargingPointsAmount",is(chargingStation.getChargingPointsAmount())));
     }
 
-    @DisplayName("Get all ChargingStations")
+    @DisplayName("Get :: All not empty ChargingStations")
     @Test
     void testListChargingStations() throws Exception{
         //given
@@ -201,7 +201,21 @@ public class ChargingStationControllerTests {
                 .andExpect(jsonPath("$.size()",is(chargingStationList.size())));
     }
 
-    @DisplayName("Get ChargingStation by ID")
+    @DisplayName("GET :: All empty ChargingStations")
+    @Test
+    void testListEmptyChargingStations() throws Exception{
+        //given
+        List<ChargingStation> chargingStationList = new ArrayList<>();
+        given(chargingStationService.getAllChargingStations()).willReturn(chargingStationList);
+
+        //when
+        ResultActions response = mockMvc.perform(get("/chargingstation"));
+
+        //then
+        response.andExpect(status().isNoContent());
+    }
+
+    @DisplayName("GET :: ChargingStation by ID")
     @Test
     void testGetChargingStationByID() throws Exception {
         //given
@@ -220,7 +234,7 @@ public class ChargingStationControllerTests {
                 .andExpect(jsonPath("$.chargingPointsAmount",is(chargingStation.getChargingPointsAmount())));
     }
 
-    @DisplayName("Get not found ChargingStations")
+    @DisplayName("GET :: Not found ChargingStations")
     @Test
     void testNotFoundChargingStations() throws Exception{
         //given
@@ -237,7 +251,7 @@ public class ChargingStationControllerTests {
                 .andDo(print());
     }
 
-    @DisplayName("Update ChargingStation")
+    @DisplayName("PUT :: Update ChargingStation")
     @Test
     void testForUpdateChargingStation() throws Exception{
         //given
@@ -265,7 +279,7 @@ public class ChargingStationControllerTests {
 
     }
 
-    @DisplayName("Update not found ChargingStations")
+    @DisplayName("PUT :: Update not found ChargingStations")
     @Test
     void testUpdateNotFoundChargingStations() throws Exception{
         //given
@@ -292,7 +306,7 @@ public class ChargingStationControllerTests {
                 .andDo(print());
     }
 
-    @DisplayName("Remove ChargingStation")
+    @DisplayName("DELETE :: Remove ChargingStation")
     @Test
     void testRemoveChargingStationBy() throws Exception{
         //given

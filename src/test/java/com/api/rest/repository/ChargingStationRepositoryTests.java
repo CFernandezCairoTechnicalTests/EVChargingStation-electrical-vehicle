@@ -121,6 +121,18 @@ public class ChargingStationRepositoryTests {
     @Test
     void testForUpdateChargingStation(){
         //given - dado o condición previa o configuración
+        ChargingStationLocationAddress chargingStationLocationAddress = ChargingStationLocationAddress.builder()
+                .state(chargingStationLocation.getAddress().getState())
+                .stateCode(chargingStationLocation.getAddress().getStateCode())
+                .city(chargingStationLocation.getAddress().getCity())
+                .county(chargingStationLocation.getAddress().getCounty())
+                .countryCode(chargingStationLocation.getAddress().getCountryCode())
+                .countryName(chargingStationLocation.getAddress().getCountryName())
+                .district(chargingStationLocation.getAddress().getDistrict())
+                .postalCode(chargingStationLocation.getAddress().getPostalCode())
+                .label(chargingStationLocation.getAddress().getLabel())
+                .build();
+
         ChargingStation chargingStationForUpdate = ChargingStation.builder()
                 .chargingStationPoints(chargingStationPoints)
                 .chargingPointsAmount(chargingStationPoints.size())
@@ -147,6 +159,16 @@ public class ChargingStationRepositoryTests {
     @Test
     void testListChargingStations(){
         //given
+        ChargingStationLocation ChargingStationLocationCopy = ChargingStationLocation.builder()
+                .id(chargingStationLocation.getId())
+                .title(chargingStationLocation.getTitle())
+                .address(chargingStationLocation.getAddress())
+                .distance(chargingStationLocation.getDistance())
+                .language(chargingStationLocation.getLanguage())
+                .position(chargingStationLocation.getPosition())
+                .resultType(chargingStationLocation.getResultType())
+                .build();
+
         ChargingStation chargingStationForList = ChargingStation.builder()
                 .chargingStationPoints(chargingStationPoints)
                 .chargingPointsAmount(chargingStationPoints.size())
@@ -154,7 +176,7 @@ public class ChargingStationRepositoryTests {
                 .chargingStationType(ChargingStationType.AC.getValue())
                 .chargingPointsAmount(0)
                 .chargingStatus(ChargingStatus.UNAVAILABLE.getValue())
-                .chargingStationLocation(chargingStationLocation)
+                .chargingStationLocation(ChargingStationLocationCopy)
                 .build();
         chargingStationRepository.save(chargingStationForList);
         chargingStationRepository.save(chargingStation);
@@ -171,6 +193,11 @@ public class ChargingStationRepositoryTests {
     @Test
     void testRemoveChargingStationByID(){
         //given - dado o condición previa o configuración
+        ChargingStationLocationPosition chargingStationLocationPosition = ChargingStationLocationPosition.builder()
+                .lat(chargingStationLocation.getPosition().getLat())
+                .lng(chargingStationLocation.getPosition().getLng())
+                .build();
+
         ChargingStation chargingStationForRemove = ChargingStation.builder()
                 .chargingStationPoints(chargingStationPoints)
                 .chargingPointsAmount(chargingStationPoints.size())

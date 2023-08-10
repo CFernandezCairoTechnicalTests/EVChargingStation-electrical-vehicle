@@ -4,10 +4,7 @@ import com.api.rest.model.*;
 import com.api.rest.repository.ChargingStationRepository;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -183,6 +180,7 @@ public class ChargingStationControllerContainerTests {
     }
 
     @Test
+    @DisplayName("Post :: Save ChargingStation")
     void saveChargingStationEntity() {
         ChargingStation chargingStationEntity = getChargingStation();
         chargingStationEntity.setChargingPointsAmount(5);
@@ -199,6 +197,7 @@ public class ChargingStationControllerContainerTests {
                 .consumeWith(orderentity -> Assertions.assertNotNull(orderentity.getResponseBody().getChargingStationId()));
     }
 
+    @DisplayName("Get :: ChargingStation by ID")
     @Test
     void getChargingStationEntity() {
         webTestClient.get()
