@@ -2,6 +2,7 @@ package com.api.rest.service.impl;
 
 import com.api.rest.exception.ResourceNotFoundException;
 import com.api.rest.model.ChargingStation;
+import com.api.rest.model.ChargingStatus;
 import com.api.rest.repository.ChargingStationRepository;
 import com.api.rest.service.ChargingStationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,11 @@ public class ChargingStationServiceImpl implements ChargingStationService {
     @Override
     public List<ChargingStation> getAllChargingStations() {
         return chargingStationRepository.findAll();
+    }
+
+    @Override
+    public List<ChargingStation> getAllAvailableChargingStations() {
+        return chargingStationRepository.findAllBychargingStatus(ChargingStatus.AVAILABLE.getValue());
     }
 
     @Override

@@ -201,6 +201,24 @@ public class ChargingStationControllerTests {
                 .andExpect(jsonPath("$.size()",is(chargingStationList.size())));
     }
 
+    @DisplayName("Get :: All not empty ChargingStations")
+    @Test
+    void testListAvailableChargingStations() throws Exception{
+        //given
+        List<ChargingStation> availableChargingStationList = new ArrayList<>();
+        availableChargingStationList.add(getChargingStation());
+        availableChargingStationList.add(getChargingStation());
+        given(chargingStationService.getAllAvailableChargingStations()).willReturn(availableChargingStationList);
+
+        //when
+        ResultActions response = mockMvc.perform(get("/chargingstation/available"));
+
+        //then
+        response.andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$.size()",is(availableChargingStationList.size())));
+    }
+
     @DisplayName("GET :: All empty ChargingStations")
     @Test
     void testListEmptyChargingStations() throws Exception{

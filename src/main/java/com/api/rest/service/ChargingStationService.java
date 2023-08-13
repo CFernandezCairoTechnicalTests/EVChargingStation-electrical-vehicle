@@ -11,6 +11,8 @@ public interface ChargingStationService {
 
     List<ChargingStation> getAllChargingStations();
 
+    List<ChargingStation> getAllAvailableChargingStations();
+
     Optional<ChargingStation> getChargingStationById(String id);
 
     ChargingStation updateChargingStation(ChargingStation chargingStationUpdated);

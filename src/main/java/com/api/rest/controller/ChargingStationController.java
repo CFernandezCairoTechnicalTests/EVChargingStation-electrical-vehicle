@@ -31,6 +31,15 @@ public class ChargingStationController {
         return ResponseEntity.ok(chargingStation);
     }
 
+    @GetMapping("/available")
+    public ResponseEntity<List<ChargingStation>> listAvailableChargingStations() {
+        List<ChargingStation> chargingStation = chargingStationService.getAllAvailableChargingStations();
+        if (chargingStation.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(chargingStation);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ChargingStation> getChargingStationById(@PathVariable("id") String chargingStationId) {
         return chargingStationService.getChargingStationById(chargingStationId)

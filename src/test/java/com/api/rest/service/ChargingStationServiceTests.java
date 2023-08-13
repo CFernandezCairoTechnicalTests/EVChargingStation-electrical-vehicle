@@ -208,6 +208,27 @@ public class ChargingStationServiceTests {
         assertThat(allChargingStations.size()).isEqualTo(2);
     }
 
+    @DisplayName("GET :: All Available ChargingStations")
+    @Test
+    void testListAvailableChargingStations(){
+        //given
+        ChargingStation chargingStationForList = ChargingStation.builder()
+                .chargingPointsAmount(chargingStationPoints.size())
+                .chargingStatus((chargingStationPoints.size() > 0) ? ChargingStatus.AVAILABLE.getValue() : ChargingStatus.UNAVAILABLE.getValue())
+                .chargingStationType(ChargingStationType.AC.getValue())
+                .chargingPointsAmount(0)
+                .chargingStationLocation(chargingStationLocation)
+                .build();
+        given(chargingStationRepository.findAllBychargingStatus(ChargingStatus.AVAILABLE.getValue())).willReturn(List.of(chargingStation,chargingStationForList));
+
+        //when
+        List<ChargingStation> allAvailableChargingStations = chargingStationService.getAllAvailableChargingStations();
+
+        //then
+        assertThat(allAvailableChargingStations).isNotNull();
+        assertThat(allAvailableChargingStations.size()).isEqualTo(2);
+    }
+
     @DisplayName("Get Empty ChargingStations")
     @Test
     void testEmptyChargingStations(){
