@@ -76,7 +76,6 @@ public class ChargingStationRepositoryTests {
                 .chargingStatus((chargingStationPoints.size() > 0) ? ChargingStatus.AVAILABLE.getValue() : ChargingStatus.UNAVAILABLE.getValue())
                 .chargingStationType(ChargingStationType.AC.getValue())
                 .chargingPointsAmount(0)
-                .chargingStatus(ChargingStatus.UNAVAILABLE.getValue())
                 .chargingStationLocation(chargingStationLocation)
                 .build();
     }
@@ -92,7 +91,6 @@ public class ChargingStationRepositoryTests {
                 .chargingStatus((chargingStationPoints.size() > 0) ? ChargingStatus.AVAILABLE.getValue() : ChargingStatus.UNAVAILABLE.getValue())
                 .chargingStationType(ChargingStationType.AC.getValue())
                 .chargingPointsAmount(0)
-                .chargingStatus(ChargingStatus.UNAVAILABLE.getValue())
                 .chargingStationLocation(chargingStationLocation)
                 .build();
 
@@ -139,7 +137,6 @@ public class ChargingStationRepositoryTests {
                 .chargingStatus((chargingStationPoints.size() > 0) ? ChargingStatus.AVAILABLE.getValue() : ChargingStatus.UNAVAILABLE.getValue())
                 .chargingStationType(ChargingStationType.AC.getValue())
                 .chargingPointsAmount(0)
-                .chargingStatus(ChargingStatus.UNAVAILABLE.getValue())
                 .chargingStationLocation(chargingStationLocation)
                 .build();
         chargingStationRepository.save(chargingStationForUpdate);
@@ -175,7 +172,6 @@ public class ChargingStationRepositoryTests {
                 .chargingStatus((chargingStationPoints.size() > 0) ? ChargingStatus.AVAILABLE.getValue() : ChargingStatus.UNAVAILABLE.getValue())
                 .chargingStationType(ChargingStationType.AC.getValue())
                 .chargingPointsAmount(0)
-                .chargingStatus(ChargingStatus.UNAVAILABLE.getValue())
                 .chargingStationLocation(ChargingStationLocationCopy)
                 .build();
         chargingStationRepository.save(chargingStationForList);
@@ -187,6 +183,39 @@ public class ChargingStationRepositoryTests {
         //then
         assertThat(chargingStationList).isNotNull();
         assertThat(chargingStationList.size()).isEqualTo(2);
+    }
+
+    @DisplayName("Get all ChargingStations by Status")
+    @Test
+    void testListChargingStationsbyStatus(){
+        //given
+        ChargingStationLocation ChargingStationLocationCopy = ChargingStationLocation.builder()
+                .id(chargingStationLocation.getId())
+                .title(chargingStationLocation.getTitle())
+                .address(chargingStationLocation.getAddress())
+                .distance(chargingStationLocation.getDistance())
+                .language(chargingStationLocation.getLanguage())
+                .position(chargingStationLocation.getPosition())
+                .resultType(chargingStationLocation.getResultType())
+                .build();
+
+        ChargingStation chargingStationForList = ChargingStation.builder()
+                .chargingStationPoints(chargingStationPoints)
+                .chargingPointsAmount(chargingStationPoints.size())
+                .chargingStatus((chargingStationPoints.size() > 0) ? ChargingStatus.AVAILABLE.getValue() : ChargingStatus.UNAVAILABLE.getValue())
+                .chargingStationType(ChargingStationType.AC.getValue())
+                .chargingPointsAmount(0)
+                .chargingStationLocation(ChargingStationLocationCopy)
+                .build();
+        chargingStationRepository.save(chargingStationForList);
+        chargingStationRepository.save(chargingStation);
+
+        //when
+        List<ChargingStation> chargingStationList = chargingStationRepository.findAllBychargingStatus(ChargingStatus.UNAVAILABLE.getValue());
+
+        //then
+        assertThat(chargingStationList).isNotNull();
+        assertThat(chargingStationList.size()).isEqualTo(0);
     }
 
     @DisplayName("Remove ChargingStation by ID")
@@ -204,7 +233,6 @@ public class ChargingStationRepositoryTests {
                 .chargingStatus((chargingStationPoints.size() > 0) ? ChargingStatus.AVAILABLE.getValue() : ChargingStatus.UNAVAILABLE.getValue())
                 .chargingStationType(ChargingStationType.AC.getValue())
                 .chargingPointsAmount(0)
-                .chargingStatus(ChargingStatus.UNAVAILABLE.getValue())
                 .chargingStationLocation(chargingStationLocation)
                 .build();
         chargingStationForRemove = chargingStationRepository.save(chargingStationForRemove);
