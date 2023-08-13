@@ -15,6 +15,8 @@ public interface ChargingStationService {
 
     Optional<ChargingStation> getChargingStationById(String id);
 
+    Optional<String> getChargingStationStatusById(String id);
+
     ChargingStation updateChargingStation(ChargingStation chargingStationUpdated);
 
     void deleteChargingStation(String id);

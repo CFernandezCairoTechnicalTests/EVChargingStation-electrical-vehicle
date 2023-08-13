@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.DoubleStream;
 
 @RestController
 @RequestMapping("/chargingstation")
@@ -43,6 +44,13 @@ public class ChargingStationController {
     @GetMapping("/{id}")
     public ResponseEntity<ChargingStation> getChargingStationById(@PathVariable("id") String chargingStationId) {
         return chargingStationService.getChargingStationById(chargingStationId)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/status/{id}")
+    public ResponseEntity<String> getChargingStationStatusById(@PathVariable("id") String chargingStationId) {
+        return chargingStationService.getChargingStationStatusById(chargingStationId)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }

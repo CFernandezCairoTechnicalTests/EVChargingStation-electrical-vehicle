@@ -115,6 +115,18 @@ public class ChargingStationRepositoryTests {
         assertThat(chargingStationDB).isNotNull();
     }
 
+    @DisplayName("GET :: Status of ChargingStation by ID")
+    @Test
+    void testGetChargingStationStatusByID(){
+        chargingStationRepository.save(chargingStation);
+
+        //when - comportamiento o accion que vamos a probar
+        String chargingStationStatusDB = String.valueOf(chargingStationRepository.findStatusByChargingStationId(chargingStation.getChargingStationId()));
+
+        //then
+        assertThat(chargingStationStatusDB).isNotNull();
+    }
+
     @DisplayName("Update ChargingStation")
     @Test
     void testForUpdateChargingStation(){

@@ -252,6 +252,24 @@ public class ChargingStationControllerTests {
                 .andExpect(jsonPath("$.chargingPointsAmount",is(chargingStation.getChargingPointsAmount())));
     }
 
+
+    @DisplayName("GET :: ChargingStationStatus by ID")
+    @Test
+    void testGetChargingStationStatusByID() throws Exception {
+        //given
+        String chargingStationId = "1L";
+        ChargingStation chargingStation = getChargingStation();
+        chargingStation.setChargingStatus(ChargingStatus.IN_USE.getValue());
+        given(chargingStationService.getChargingStationStatusById(chargingStationId)).willReturn(Optional.of(chargingStation.getChargingStatus()));
+
+        //when
+        ResultActions response = mockMvc.perform(get("/chargingstation/status/{id}",chargingStationId));
+
+        //then
+        response.andDo(print())
+                .andExpect(status().isOk());
+    }
+
     @DisplayName("GET :: Not found ChargingStations")
     @Test
     void testNotFoundChargingStations() throws Exception{

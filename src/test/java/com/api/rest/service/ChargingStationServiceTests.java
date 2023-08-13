@@ -186,7 +186,7 @@ public class ChargingStationServiceTests {
         verify(chargingStationRepository,never()).save(any(ChargingStation.class));
     }
 
-    @DisplayName("Get all ChargingStations")
+    @DisplayName("GET :: List all ChargingStations")
     @Test
     void testListChargingStations(){
         //given
@@ -229,7 +229,7 @@ public class ChargingStationServiceTests {
         assertThat(allAvailableChargingStations.size()).isEqualTo(2);
     }
 
-    @DisplayName("Get Empty ChargingStations")
+    @DisplayName("GET :: List empty ChargingStations")
     @Test
     void testEmptyChargingStations(){
         //given
@@ -251,7 +251,7 @@ public class ChargingStationServiceTests {
         assertThat(allChargingStations.size()).isEqualTo(0);
     }
 
-    @DisplayName("Get ChargingStation by ID")
+    @DisplayName("GET :: List ChargingStation by ID")
     @Test
     void testGetChargingStationByID(){
         //given
@@ -262,6 +262,19 @@ public class ChargingStationServiceTests {
 
         //then
         assertThat(chargingStationSaved).isNotNull();
+    }
+
+    @DisplayName("GET :: ChargingStationStatus by ID")
+    @Test
+    void testGetChargingStationStatusByID(){
+        //given
+        given(chargingStationRepository.findStatusByChargingStationId(null)).willReturn(Optional.of(chargingStation.getChargingStatus()));
+
+        //when
+        String chargingStationStatusSaved = String.valueOf(chargingStationService.getChargingStationStatusById(chargingStation.getChargingStationId()));
+
+        //then
+        assertThat(chargingStationStatusSaved).isNotNull();
     }
 
     @DisplayName("Update ChargingStation")

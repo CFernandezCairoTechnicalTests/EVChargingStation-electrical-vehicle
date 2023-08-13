@@ -42,6 +42,11 @@ public class ChargingStationServiceImpl implements ChargingStationService {
     }
 
     @Override
+    public Optional<String> getChargingStationStatusById(String id) {
+        return chargingStationRepository.findStatusByChargingStationId(id);
+    }
+
+    @Override
     public ChargingStation updateChargingStation(ChargingStation chargingStationUpdated) {
         return chargingStationRepository.save(chargingStationUpdated);
     }
