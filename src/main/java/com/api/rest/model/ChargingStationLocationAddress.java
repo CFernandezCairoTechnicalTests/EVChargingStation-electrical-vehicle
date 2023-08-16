@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 
 @Setter
 @Getter
@@ -12,7 +13,8 @@ import javax.validation.constraints.NotEmpty;
 @Builder
 
 @Embeddable
-public class ChargingStationLocationAddress {
+public class ChargingStationLocationAddress implements Serializable {
+    private static final long serialVersionUID = 7715517219286093931L;
 
     @Column(name = "label",nullable = false)
     @NonNull

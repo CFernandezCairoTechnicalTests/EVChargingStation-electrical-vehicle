@@ -121,7 +121,7 @@ public class ChargingStationRepositoryTests {
         chargingStationRepository.save(chargingStation);
 
         //when - comportamiento o accion que vamos a probar
-        String chargingStationStatusDB = String.valueOf(chargingStationRepository.findStatusByChargingStationId(chargingStation.getChargingStationId()));
+        String chargingStationStatusDB = String.valueOf(chargingStationRepository.findBychargingStationId(chargingStation.getChargingStationId()));
 
         //then
         assertThat(chargingStationStatusDB).isNotNull();

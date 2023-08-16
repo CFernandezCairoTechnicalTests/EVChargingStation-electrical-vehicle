@@ -6,7 +6,6 @@ import com.api.rest.service.ChargingStationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -253,21 +252,23 @@ public class ChargingStationControllerTests {
     }
 
 
-    @DisplayName("GET :: ChargingStationStatus by ID")
+    @DisplayName("GET :: ChargingStationAvailable by ID")
     @Test
     void testGetChargingStationStatusByID() throws Exception {
         //given
         String chargingStationId = "1L";
         ChargingStation chargingStation = getChargingStation();
         chargingStation.setChargingStatus(ChargingStatus.IN_USE.getValue());
-        given(chargingStationService.getChargingStationStatusById(chargingStationId)).willReturn(Optional.of(chargingStation.getChargingStatus()));
+        given(chargingStationService.getChargingStationAvailableById(chargingStationId)).willReturn(Optional.of(chargingStation));
 
         //when
-        ResultActions response = mockMvc.perform(get("/chargingstation/status/{id}",chargingStationId));
+        ResultActions response = mockMvc.perform(get("/chargingstation/available/{id}",chargingStationId));
 
         //then
         response.andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.chargingStatus",is(chargingStation.getChargingStatus())))
+                .andExpect(jsonPath("$.chargingPointsAmount",is(chargingStation.getChargingPointsAmount())));
     }
 
     @DisplayName("GET :: Not found ChargingStations")

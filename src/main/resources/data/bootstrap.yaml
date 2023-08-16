@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: chargingstation-service
+  cloud:
+    config:
+      enabled: true
+      uri: http://${CONFIG_HOST:host.docker.internal}:${CONFIG_PORT:8091}
+  bus:
+    enabled: true
+    destination: 'ev.config'
+    trace:
+      enabled: true
+    refresh:
+      enabled: true
+  zipkin:
+    baseurl: http://${ZIPKIN_HOST:host.docker.internal}:${ZIPKIN_PORT:9411}
+    sample:
+      probability: 1.0
+  redis:
+    host: 'host.docker.internal'
+    port: 6379
+  cache:
+    cache-names: 'ChargingStations'
+    redis:
+      time-to-live: 500000
+      key-prefix: 'ev'
+  data:
+    redis:
+      repositories:
+        enabled: false
+    cache:
+      type: redis
+      redis:
+        cache-null-values: true
+        time-to-live: 10000

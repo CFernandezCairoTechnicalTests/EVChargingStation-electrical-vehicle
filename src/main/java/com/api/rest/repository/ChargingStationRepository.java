@@ -14,6 +14,6 @@ import java.util.Optional;
 public interface ChargingStationRepository extends JpaRepository<ChargingStation, String> {
     List<ChargingStation> findAllBychargingStatus(String status);
 
-    Optional<String> findStatusByChargingStationId(String id);
+    Optional<ChargingStation> findBychargingStationId(String id);
 
 }

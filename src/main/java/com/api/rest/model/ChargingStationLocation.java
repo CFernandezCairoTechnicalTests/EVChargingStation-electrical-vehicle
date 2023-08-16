@@ -17,6 +17,7 @@ import java.io.Serializable;
  */
 @Embeddable
 public class ChargingStationLocation implements Serializable {
+    private static final long serialVersionUID = 5086484511706646662L;
 
     @Column(name = "id", nullable = false)
     @NonNull

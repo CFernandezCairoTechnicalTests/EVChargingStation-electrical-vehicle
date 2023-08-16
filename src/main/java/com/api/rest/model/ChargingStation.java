@@ -22,6 +22,8 @@ import java.util.Set;
 @Entity
 @Table(name = "charging_stations")
 public class ChargingStation implements Serializable {
+    private static final long serialVersionUID = -4439114469417994311L;
+
     @Id
     @GeneratedValue(generator="system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid")
