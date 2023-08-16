@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 
 @Setter
 @Getter
@@ -12,7 +13,7 @@ import javax.validation.constraints.NotEmpty;
 @Builder
 
 @Embeddable
-public class ChargingStationLocationPosition {
+public class ChargingStationLocationPosition implements Serializable {
 
     @Column(name = "latitude",nullable = false)
     @NonNull

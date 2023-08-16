@@ -8,6 +8,7 @@ import javax.persistence.Embeddable;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 import java.util.UUID;
 
 @Setter
@@ -18,7 +19,7 @@ import java.util.UUID;
 
 @Embeddable
 @Table(name = "charging_station_points")
-public class ChargingStationPoint {
+public class ChargingStationPoint implements Serializable {
 
     @GeneratedValue(generator="system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid")
