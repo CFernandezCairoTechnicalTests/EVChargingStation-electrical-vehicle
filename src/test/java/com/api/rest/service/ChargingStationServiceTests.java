@@ -301,7 +301,7 @@ public class ChargingStationServiceTests {
         willDoNothing().given(chargingStationRepository).deleteById(chargingStationId);
 
         //when
-        chargingStationService.deleteChargingStation(chargingStationId);
+        chargingStationService.deleteChargingStationById(chargingStationId);
 
         //then
         verify(chargingStationRepository,times(1)).deleteById(chargingStationId);

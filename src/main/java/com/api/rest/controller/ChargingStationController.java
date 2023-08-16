@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.DoubleStream;
 
 @RestController
 @RequestMapping("/chargingstation")
@@ -48,9 +47,9 @@ public class ChargingStationController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/status/{id}")
-    public ResponseEntity<String> getChargingStationStatusById(@PathVariable("id") String chargingStationId) {
-        return chargingStationService.getChargingStationStatusById(chargingStationId)
+    @GetMapping("/available/{id}")
+    public ResponseEntity<ChargingStation> getChargingStationAvailableById(@PathVariable("id") String chargingStationId) {
+        return chargingStationService.getChargingStationAvailableById(chargingStationId)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -71,7 +70,18 @@ public class ChargingStationController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteChargingStation(@PathVariable("id") String chargingStationId){
-        chargingStationService.deleteChargingStation(chargingStationId);
+        chargingStationService.deleteChargingStationById(chargingStationId);
         return new ResponseEntity<String>("CargingStation successfully removed",HttpStatus.OK);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<HttpStatus> deleteAllTutorials() {
+        try {
+            chargingStationService.deleteAll();
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 }

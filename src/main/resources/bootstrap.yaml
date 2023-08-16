@@ -16,20 +16,3 @@ spring:
     baseurl: http://${ZIPKIN_HOST:host.docker.internal}:${ZIPKIN_PORT:9411}
     sample:
       probability: 1.0
-  redis:
-    host: 'host.docker.internal'
-    port: 6379
-  cache:
-    cache-names: 'ChargingStations'
-    redis:
-      time-to-live: 500000
-      key-prefix: 'ev'
-  data:
-    redis:
-      repositories:
-        enabled: false
-    cache:
-      type: redis
-      redis:
-        cache-null-values: true
-        time-to-live: 10000
