@@ -251,7 +251,7 @@ public class ChargingStationServiceTests {
         assertThat(allChargingStations.size()).isEqualTo(0);
     }
 
-    @DisplayName("GET :: List ChargingStation by ID")
+    @DisplayName("GET :: ChargingStation by ID")
     @Test
     void testGetChargingStationByID(){
         //given
@@ -301,7 +301,7 @@ public class ChargingStationServiceTests {
         willDoNothing().given(chargingStationRepository).deleteById(chargingStationId);
 
         //when
-        chargingStationService.deleteChargingStation(chargingStationId);
+        chargingStationService.deleteChargingStationById(chargingStationId);
 
         //then
         verify(chargingStationRepository,times(1)).deleteById(chargingStationId);

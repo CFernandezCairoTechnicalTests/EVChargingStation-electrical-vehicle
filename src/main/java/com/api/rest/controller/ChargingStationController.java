@@ -71,7 +71,18 @@ public class ChargingStationController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteChargingStation(@PathVariable("id") String chargingStationId){
-        chargingStationService.deleteChargingStation(chargingStationId);
+        chargingStationService.deleteChargingStationById(chargingStationId);
         return new ResponseEntity<String>("CargingStation successfully removed",HttpStatus.OK);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<HttpStatus> deleteAllTutorials() {
+        try {
+            chargingStationService.deleteAll();
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 }

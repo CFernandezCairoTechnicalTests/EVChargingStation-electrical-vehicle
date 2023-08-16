@@ -19,6 +19,8 @@ public interface ChargingStationService {
 
     ChargingStation updateChargingStation(ChargingStation chargingStationUpdated);
 
-    void deleteChargingStation(String id);
+    void deleteChargingStationById(String id);
+
+    public void deleteAll();
 
 }

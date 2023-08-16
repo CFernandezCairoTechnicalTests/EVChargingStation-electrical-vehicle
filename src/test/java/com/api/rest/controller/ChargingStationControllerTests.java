@@ -347,7 +347,7 @@ public class ChargingStationControllerTests {
     void testRemoveChargingStationBy() throws Exception{
         //given
         String chargingStationId = "1L";
-        willDoNothing().given(chargingStationService).deleteChargingStation(chargingStationId);
+        willDoNothing().given(chargingStationService).deleteChargingStationById(chargingStationId);
 
         //when
         ResultActions response = mockMvc.perform(delete("/chargingstation/{id}",chargingStationId));
