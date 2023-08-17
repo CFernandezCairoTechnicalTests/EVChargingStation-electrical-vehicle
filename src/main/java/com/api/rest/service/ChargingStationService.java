@@ -7,19 +7,17 @@ import java.util.Optional;
 
 public interface ChargingStationService {
 
-    ChargingStation saveChargingStation(ChargingStation chargingStation);
+    ChargingStation save(ChargingStation chargingStation);
 
-    List<ChargingStation> getAllChargingStations();
+    List<ChargingStation> findAll();
 
-    List<ChargingStation> getAllAvailableChargingStations();
+    List<ChargingStation> findAllBychargingStatus(String status);
 
-    Optional<ChargingStation> getChargingStationById(String id);
+    Optional<ChargingStation> findById(String id);
 
-    Optional<String> getChargingStationStatusById(String id);
+    ChargingStation update(ChargingStation chargingStationUpdated);
 
-    ChargingStation updateChargingStation(ChargingStation chargingStationUpdated);
-
-    void deleteChargingStationById(String id);
+    void deleteById(String id);
 
     public void deleteAll();
 

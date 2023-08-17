@@ -156,7 +156,7 @@ public class ChargingStationControllerContainerTests {
         Set<ChargingStationPoint> points = getChargingStationPoints();
 
         ChargingStation chargingStation = ChargingStation.builder()
-                .chargingStationId(UUID.randomUUID().toString())
+                .id(UUID.randomUUID().toString())
                 .chargingStationPoints(points)
                 .chargingPointsAmount(points.size())
                 .chargingStatus((points.size() > 0) ? ChargingStatus.AVAILABLE.getValue() : ChargingStatus.UNAVAILABLE.getValue())
@@ -194,7 +194,7 @@ public class ChargingStationControllerContainerTests {
                 .expectStatus()
                 .is2xxSuccessful()
                 .expectBody(ChargingStation.class)
-                .consumeWith(orderentity -> Assertions.assertNotNull(orderentity.getResponseBody().getChargingStationId()));
+                .consumeWith(orderentity -> Assertions.assertNotNull(orderentity.getResponseBody().getId()));
     }
 
     @DisplayName("Get :: ChargingStation by ID")

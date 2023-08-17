@@ -20,16 +20,16 @@ public class ChargingStationServiceImpl implements ChargingStationService {
     private ChargingStationRepository chargingStationRepository;
 
     @Override
-    @Caching(
+    /*@Caching(
             cacheable = {
                     @Cacheable(value="chargingstation_available", key="#result.chargingStationId", condition = "#result.chargingStatus==\"AVAILABLE\""),
                     @Cacheable(value="chargingstation", key="#result.chargingStationId")
             }
-    )
-    public ChargingStation saveChargingStation(ChargingStation chargingStation) {
-        Optional<ChargingStation> chargingStationSaved = chargingStationRepository.findById(chargingStation.getChargingStationId());
+    )*/
+    public ChargingStation save(ChargingStation chargingStation) {
+        Optional<ChargingStation> chargingStationSaved = chargingStationRepository.findById(chargingStation.getId());
         if(chargingStationSaved.isPresent()){
-            throw new ResourceNotFoundException("The ChargingStation Exists : " + chargingStation.getChargingStationId());
+            throw new ResourceNotFoundException("The ChargingStation Exists : " + chargingStation.getId());
         }
         ChargingStation result = chargingStationRepository.save(chargingStation);
         return result;
@@ -37,36 +37,31 @@ public class ChargingStationServiceImpl implements ChargingStationService {
 
     @Override
     @Cacheable("chargingstations")
-    public List<ChargingStation> getAllChargingStations() {
+    public List<ChargingStation> findAll() {
         return chargingStationRepository.findAll();
     }
 
     @Override
     @Cacheable("chargingstations_available")
-    public List<ChargingStation> getAllAvailableChargingStations() {
-        return chargingStationRepository.findAllBychargingStatus(ChargingStatus.AVAILABLE.getValue());
+    public List<ChargingStation> findAllBychargingStatus(String status) {
+        return chargingStationRepository.findAllBychargingStatus(status);
     }
 
     @Override
     @Cacheable("chargingstation")
-    public Optional<ChargingStation> getChargingStationById(String id) {
+    public Optional<ChargingStation> findById(String id) {
         return chargingStationRepository.findById(id);
     }
 
     @Override
-    public Optional<String> getChargingStationStatusById(String id) {
-        return chargingStationRepository.findStatusByChargingStationId(id);
-    }
-
-    @Override
     @CacheEvict(value = { "chargingstation", "chargingstation_available" }, key = "#chargingStationUpdated.id")
-    public ChargingStation updateChargingStation(ChargingStation chargingStationUpdated) {
+    public ChargingStation update(ChargingStation chargingStationUpdated) {
         return chargingStationRepository.save(chargingStationUpdated);
     }
 
     @Override
     @CacheEvict(value = { "chargingstation", "chargingstation_available" }, key = "#id")
-    public void deleteChargingStationById(String id) {
+    public void deleteById(String id) {
         chargingStationRepository.deleteById(id);
     }
 

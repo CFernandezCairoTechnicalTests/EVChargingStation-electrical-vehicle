@@ -18,7 +18,7 @@ import java.io.Serializable;
 @Embeddable
 public class ChargingStationLocation implements Serializable {
 
-    @Column(name = "id", nullable = false)
+    @Column(name = "id_location", nullable = false)
     @NonNull
     @NotEmpty
     private String id;

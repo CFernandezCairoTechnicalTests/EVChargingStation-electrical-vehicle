@@ -160,12 +160,12 @@ public class ChargingStationServiceTests {
     @Test
     void testSaveChargingStation(){
         //given
-        given(chargingStationRepository.findById(chargingStation.getChargingStationId()))
+        given(chargingStationRepository.findById(chargingStation.getId()))
                 .willReturn(Optional.empty());
         given(chargingStationRepository.save(chargingStation)).willReturn(chargingStation);
 
         //when
-        ChargingStation chargingStationSaved = chargingStationService.saveChargingStation(chargingStation);
+        ChargingStation chargingStationSaved = chargingStationService.save(chargingStation);
 
         //then
         assertThat(chargingStationSaved).isNotNull();
@@ -175,11 +175,11 @@ public class ChargingStationServiceTests {
     @Test
     void saveChargingStationWithThrowException(){
         //given
-        given(chargingStationRepository.findById(chargingStation.getChargingStationId()))
+        given(chargingStationRepository.findById(chargingStation.getId()))
                 .willReturn(Optional.of(chargingStation));
         //when
         assertThrows(ResourceNotFoundException.class,() -> {
-            chargingStationService.saveChargingStation(chargingStation);
+            chargingStationService.save(chargingStation);
         });
 
         //then
@@ -201,7 +201,7 @@ public class ChargingStationServiceTests {
         given(chargingStationRepository.findAll()).willReturn(List.of(chargingStation,chargingStationForList));
 
         //when
-        List<ChargingStation> allChargingStations = chargingStationService.getAllChargingStations();
+        List<ChargingStation> allChargingStations = chargingStationService.findAll();
 
         //then
         assertThat(allChargingStations).isNotNull();
@@ -222,7 +222,7 @@ public class ChargingStationServiceTests {
         given(chargingStationRepository.findAllBychargingStatus(ChargingStatus.AVAILABLE.getValue())).willReturn(List.of(chargingStation,chargingStationForList));
 
         //when
-        List<ChargingStation> allAvailableChargingStations = chargingStationService.getAllAvailableChargingStations();
+        List<ChargingStation> allAvailableChargingStations = chargingStationService.findAllBychargingStatus(ChargingStatus.AVAILABLE.getValue());
 
         //then
         assertThat(allAvailableChargingStations).isNotNull();
@@ -244,7 +244,7 @@ public class ChargingStationServiceTests {
         given(chargingStationRepository.findAll()).willReturn(Collections.emptyList());
 
         //when
-        List<ChargingStation> allChargingStations = chargingStationService.getAllChargingStations();
+        List<ChargingStation> allChargingStations = chargingStationService.findAll();
 
         //then
         assertThat(allChargingStations).isEmpty();
@@ -258,23 +258,10 @@ public class ChargingStationServiceTests {
         given(chargingStationRepository.findById(null)).willReturn(Optional.of(chargingStation));
 
         //when
-        ChargingStation chargingStationSaved = chargingStationService.getChargingStationById(chargingStation.getChargingStationId()).get();
+        ChargingStation chargingStationSaved = chargingStationService.findById(chargingStation.getId()).get();
 
         //then
         assertThat(chargingStationSaved).isNotNull();
-    }
-
-    @DisplayName("GET :: ChargingStationStatus by ID")
-    @Test
-    void testGetChargingStationStatusByID(){
-        //given
-        given(chargingStationRepository.findStatusByChargingStationId(null)).willReturn(Optional.of(chargingStation.getChargingStatus()));
-
-        //when
-        String chargingStationStatusSaved = String.valueOf(chargingStationService.getChargingStationStatusById(chargingStation.getChargingStationId()));
-
-        //then
-        assertThat(chargingStationStatusSaved).isNotNull();
     }
 
     @DisplayName("Update ChargingStation")
@@ -286,7 +273,7 @@ public class ChargingStationServiceTests {
         chargingStation.setChargingStationType(ChargingStationType.AC.getValue());
 
         //when
-        ChargingStation updatedChargingStation  = chargingStationService.updateChargingStation(chargingStation);
+        ChargingStation updatedChargingStation  = chargingStationService.update(chargingStation);
 
         //then
         assertThat(updatedChargingStation.getChargingStatus()).isEqualTo(ChargingStatus.AVAILABLE.getValue());
@@ -301,7 +288,7 @@ public class ChargingStationServiceTests {
         willDoNothing().given(chargingStationRepository).deleteById(chargingStationId);
 
         //when
-        chargingStationService.deleteChargingStationById(chargingStationId);
+        chargingStationService.deleteById(chargingStationId);
 
         //then
         verify(chargingStationRepository,times(1)).deleteById(chargingStationId);

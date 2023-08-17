@@ -99,7 +99,7 @@ public class ChargingStationRepositoryTests {
 
         //then - verificar la salida
         assertThat(savedChargingStation).isNotNull();
-        assertThat(savedChargingStation.getChargingStationId()).isNotNull();
+        assertThat(savedChargingStation.getId()).isNotNull();
 
     }
 
@@ -109,22 +109,10 @@ public class ChargingStationRepositoryTests {
         chargingStationRepository.save(chargingStation);
 
         //when - comportamiento o accion que vamos a probar
-        ChargingStation chargingStationDB = chargingStationRepository.findById(chargingStation.getChargingStationId()).get();
+        ChargingStation chargingStationDB = chargingStationRepository.findById(chargingStation.getId()).get();
 
         //then
         assertThat(chargingStationDB).isNotNull();
-    }
-
-    @DisplayName("GET :: Status of ChargingStation by ID")
-    @Test
-    void testGetChargingStationStatusByID(){
-        chargingStationRepository.save(chargingStation);
-
-        //when - comportamiento o accion que vamos a probar
-        String chargingStationStatusDB = String.valueOf(chargingStationRepository.findStatusByChargingStationId(chargingStation.getChargingStationId()));
-
-        //then
-        assertThat(chargingStationStatusDB).isNotNull();
     }
 
     @DisplayName("Update ChargingStation")
@@ -154,7 +142,7 @@ public class ChargingStationRepositoryTests {
         chargingStationRepository.save(chargingStationForUpdate);
 
         //when
-        ChargingStation chargingStationUpdated = chargingStationRepository.findById(chargingStationForUpdate.getChargingStationId()).get();
+        ChargingStation chargingStationUpdated = chargingStationRepository.findById(chargingStationForUpdate.getId()).get();
         chargingStationUpdated.setChargingStationType(ChargingStationType.DC.getValue());
         chargingStationUpdated.setChargingStatus(ChargingStatus.IN_USE.getValue());
         ChargingStation chargingStationResult = chargingStationRepository.save(chargingStationUpdated);
@@ -250,8 +238,8 @@ public class ChargingStationRepositoryTests {
         chargingStationForRemove = chargingStationRepository.save(chargingStationForRemove);
 
         //when
-        chargingStationRepository.deleteById(chargingStationForRemove.getChargingStationId());
-        Optional<ChargingStation> chargingStationOptional = chargingStationRepository.findById(chargingStationForRemove.getChargingStationId());
+        chargingStationRepository.deleteById(chargingStationForRemove.getId());
+        Optional<ChargingStation> chargingStationOptional = chargingStationRepository.findById(chargingStationForRemove.getId());
 
         //then
         assertThat(chargingStationOptional).isEmpty();

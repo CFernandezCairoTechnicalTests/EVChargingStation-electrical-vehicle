@@ -25,7 +25,8 @@ public class ChargingStation implements Serializable {
     @Id
     @GeneratedValue(generator="system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid")
-    private String chargingStationId;
+    @Column(name="charging_station_id")
+    private String id;
 
     @Embedded
     @NonNull
@@ -37,7 +38,7 @@ public class ChargingStation implements Serializable {
     @NonNull
     private String chargingStationType;
 
-    @ElementCollection(fetch = FetchType.LAZY)
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "charging_station_points", joinColumns = @JoinColumn(name = "chargingStation_id"))
     @NotEmpty
     @Valid

@@ -1,6 +1,7 @@
 package com.api.rest.controller;
 
 import com.api.rest.model.ChargingStation;
+import com.api.rest.model.ChargingStatus;
 import com.api.rest.service.ChargingStationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.DoubleStream;
 
 @RestController
 @RequestMapping("/chargingstation")
@@ -20,12 +20,12 @@ public class ChargingStationController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ChargingStation saveChargingStation(@Valid @RequestBody ChargingStation chargingStation){
-        return chargingStationService.saveChargingStation(chargingStation);
+        return chargingStationService.save(chargingStation);
     }
 
     @GetMapping
     public ResponseEntity<List<ChargingStation>> listChargingStations() {
-        List<ChargingStation> chargingStation = chargingStationService.getAllChargingStations();
+        List<ChargingStation> chargingStation = chargingStationService.findAll();
         if (chargingStation.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
@@ -34,7 +34,7 @@ public class ChargingStationController {
 
     @GetMapping("/available")
     public ResponseEntity<List<ChargingStation>> listAvailableChargingStations() {
-        List<ChargingStation> chargingStation = chargingStationService.getAllAvailableChargingStations();
+        List<ChargingStation> chargingStation = chargingStationService.findAllBychargingStatus(ChargingStatus.AVAILABLE.getValue());
         if (chargingStation.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
@@ -43,27 +43,20 @@ public class ChargingStationController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ChargingStation> getChargingStationById(@PathVariable("id") String chargingStationId) {
-        return chargingStationService.getChargingStationById(chargingStationId)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    @GetMapping("/status/{id}")
-    public ResponseEntity<String> getChargingStationStatusById(@PathVariable("id") String chargingStationId) {
-        return chargingStationService.getChargingStationStatusById(chargingStationId)
+        return chargingStationService.findById(chargingStationId)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ChargingStation> updateChargingStation(@PathVariable("id") String chargingStationId, @Valid @RequestBody ChargingStation chargingStation){
-        return chargingStationService.getChargingStationById(chargingStationId)
+        return chargingStationService.findById(chargingStationId)
                 .map(chargingStationSaved -> {
                     chargingStationSaved.setChargingStationType(chargingStation.getChargingStationType());
                     chargingStationSaved.setChargingPointsAmount(chargingStation.getChargingPointsAmount());
                     chargingStationSaved.setChargingStatus(chargingStation.getChargingStatus());
 
-                    ChargingStation chargingStationUpdated = chargingStationService.updateChargingStation(chargingStationSaved);
+                    ChargingStation chargingStationUpdated = chargingStationService.update(chargingStationSaved);
                     return new ResponseEntity<>(chargingStationUpdated,HttpStatus.OK);
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());
@@ -71,7 +64,7 @@ public class ChargingStationController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteChargingStation(@PathVariable("id") String chargingStationId){
-        chargingStationService.deleteChargingStationById(chargingStationId);
+        chargingStationService.deleteById(chargingStationId);
         return new ResponseEntity<String>("CargingStation successfully removed",HttpStatus.OK);
     }
 
