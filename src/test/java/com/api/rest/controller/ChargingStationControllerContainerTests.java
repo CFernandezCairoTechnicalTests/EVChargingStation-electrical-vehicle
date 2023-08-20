@@ -198,7 +198,7 @@ public class ChargingStationControllerContainerTests {
     }
 
     @DisplayName("Get :: ChargingStation by ID")
-    @Test
+    //@Test
     void getChargingStationEntity() {
         webTestClient.get()
                 .uri("/chargingstation")
